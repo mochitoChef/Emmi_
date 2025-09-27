@@ -1,55 +1,35 @@
-# R3F Virtual Girlfriend Project
+# R3F Virtual Girlfriend Chat System
 
-## Project Structure
-- `r3f-virtual-girlfriend-backend/` - Node.js/Express backend server
-- `r3f-virtual-girlfriend-frontend/` - React Three Fiber frontend
-
-## Development Commands
-
-### Backend
+## Quick Start
 ```bash
-cd r3f-virtual-girlfriend-backend
-npm run dev  # Start backend server on port 3000
+# Backend (port 3002)
+cd r3f-virtual-girlfriend-backend && npm run dev
+
+# Frontend (port 5173)
+cd r3f-virtual-girlfriend-frontend && npm run dev
 ```
 
-### Frontend
-```bash
-cd r3f-virtual-girlfriend-frontend
-npm run dev  # Start frontend server on port 5173
-```
+## Configuration
+**Environment**: `r3f-virtual-girlfriend-backend/.env`
+- `OPENAI_API_KEY` - Required for AI responses
+- `ELEVEN_LABS_API_KEY` - Required for voice synthesis
 
-## Environment Setup
-- Backend environment file: `r3f-virtual-girlfriend-backend/.env`
-- Required API keys:
-  - `OPENAI_API_KEY` - OpenAI API key for chat functionality
-  - `ELEVEN_LABS_API_KEY` - ElevenLabs API key for voice synthesis
+**Rhubarb**: Ensure complete package is in `/bin/` directory
 
-## Voice Configuration
-- **ElevenLabs Voice ID**: `eXpIbVcVbLo8ZJQDlDnl` (configured in backend)
-- Audio generation pipeline working with lip-sync
+## Features ✅
+- Multi-user WebSocket chat with Socket.io
+- Custom usernames (2-20 characters)
+- @emmi mentions trigger AI voice responses with lip-sync (unlimited)
+- Rate limiting: 3 msgs/10s per user (general chat)
+- Anti-spam filtering
+- GPT-4o-mini AI model for detailed, engaging responses (2-4 sentences)
 
-## Dependencies
-- **Rhubarb Lip Sync**: Complete package installed at `r3f-virtual-girlfriend-backend/bin/`
-  - Download from: https://github.com/DanielSWolf/rhubarb-lip-sync/releases
-  - Current version: v1.14.0
-  - **IMPORTANT**: Extract the complete ZIP package, not just the .exe file
-  - Required files: `rhubarb.exe`, `res/` folder with resource files
+## Key Files
+- Backend: `r3f-virtual-girlfriend-backend/index.js`
+- Frontend: `r3f-virtual-girlfriend-frontend/src/components/UI.jsx`
+- Chat Hook: `r3f-virtual-girlfriend-frontend/src/hooks/useChat.jsx`
 
-## Audio Generation Status ✅
-- ElevenLabs API integration: **WORKING**
-- Rhubarb lip-sync processing: **WORKING**
-- Audio files generated in: `r3f-virtual-girlfriend-backend/audios/`
-- Chat endpoint `/chat` fully functional with audio responses
-
-## Servers
-- Backend: http://localhost:3000
-- Frontend: http://localhost:5173
-
-## Package Managers
-- npm and yarn are both available
-- Project was set up using npm
-
-## Troubleshooting
-- If audio generation fails, ensure complete Rhubarb package is installed
-- Check that API keys are correctly set in `.env` file
-- Verify both servers are running on correct ports
+## Deployment
+- Frontend: Vercel-compatible
+- Backend: Railway-compatible (handles Rhubarb binary)
+- Repository: https://github.com/mochitoChef/Emmi_.git
