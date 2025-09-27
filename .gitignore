@@ -1,0 +1,79 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Generated audio files
+r3f-virtual-girlfriend-backend/audios/*.mp3
+r3f-virtual-girlfriend-backend/audios/*.wav
+r3f-virtual-girlfriend-backend/audios/*.json
+
+# Temporary files
+r3f-virtual-girlfriend-backend/test.json
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build outputs
+dist/
+build/
+.next/
+
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Dependency directories
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
+
+# Rhubarb binaries (too large for git)
+r3f-virtual-girlfriend-backend/bin/rhubarb.exe
+r3f-virtual-girlfriend-backend/bin/res/
+r3f-virtual-girlfriend-backend/bin/extras/
+r3f-virtual-girlfriend-backend/bin/tests/
+r3f-virtual-girlfriend-backend/bin/*.md
