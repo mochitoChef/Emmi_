@@ -1,7 +1,38 @@
 // Script to download Rhubarb binary at runtime for Railway
 import { exec } from 'child_process';
 import fs from 'fs';
+import https from 'https';
 import path from 'path';
+
+const downloadFile = (url, filePath) => {
+  return new Promise((resolve, reject) => {
+    const file = fs.createWriteStream(filePath);
+
+    https.get(url, (response) => {
+      // Handle redirects
+      if (response.statusCode === 302 || response.statusCode === 301) {
+        return downloadFile(response.headers.location, filePath).then(resolve).catch(reject);
+      }
+
+      if (response.statusCode !== 200) {
+        reject(new Error(`HTTP ${response.statusCode}: ${response.statusMessage}`));
+        return;
+      }
+
+      response.pipe(file);
+
+      file.on('finish', () => {
+        file.close();
+        resolve();
+      });
+
+      file.on('error', (err) => {
+        fs.unlink(filePath, () => {}); // Delete partial file
+        reject(err);
+      });
+    }).on('error', reject);
+  });
+};
 
 const downloadRhubarb = async () => {
   const binDir = path.join(process.cwd(), 'bin');
@@ -27,11 +58,14 @@ const downloadRhubarb = async () => {
       fs.mkdirSync(binDir, { recursive: true });
     }
 
-    // Download and extract
+    // Download using Node.js https module
+    const tarPath = path.join(binDir, 'rhubarb-1.14.0-linux.tar.gz');
+    await downloadFile('https://github.com/DanielSWolf/rhubarb-lip-sync/releases/download/v1.14.0/rhubarb-1.14.0-linux.tar.gz', tarPath);
+
+    // Extract and setup using tar (should be available in most containers)
     await new Promise((resolve, reject) => {
       exec(`
         cd ${binDir} && \
-        curl -L -o rhubarb-1.14.0-linux.tar.gz https://github.com/DanielSWolf/rhubarb-lip-sync/releases/download/v1.14.0/rhubarb-1.14.0-linux.tar.gz && \
         tar -xzf rhubarb-1.14.0-linux.tar.gz && \
         mv rhubarb-1.14.0-linux/rhubarb . && \
         chmod +x rhubarb && \
