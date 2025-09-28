@@ -72,7 +72,7 @@ const downloadRhubarb = async () => {
         mv rhubarb-lip-sync-1.12.0 rhubarb-build && \
         cd rhubarb-build && \
         cmake -DCMAKE_BUILD_TYPE=Release . && \
-        make && \
+        make rhubarb && \
         cp rhubarb/rhubarb ../rhubarb && \
         chmod +x ../rhubarb && \
         cd .. && \
