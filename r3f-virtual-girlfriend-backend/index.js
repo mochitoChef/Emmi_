@@ -458,8 +458,14 @@ const lipSyncMessage = async (message) => {
     // -y to overwrite the file
   );
   console.log(`Conversion done in ${new Date().getTime() - time}ms`);
+  // Platform-aware Rhubarb path
+  const isWindows = process.platform === 'win32';
+  const rhubarbPath = isWindows
+    ? `"${process.cwd()}\\bin\\rhubarb.exe"`
+    : `"${process.cwd()}/bin/rhubarb"`;
+
   await execCommand(
-    `"${process.cwd()}\\bin\\rhubarb.exe" -f json -o audios/${message}.json audios/${message}.wav -r phonetic`
+    `${rhubarbPath} -f json -o audios/${message}.json audios/${message}.wav -r phonetic`
   );
   // -r phonetic is faster but less accurate
   console.log(`Lip sync done in ${new Date().getTime() - time}ms`);
