@@ -44,34 +44,42 @@ const downloadRhubarb = async () => {
     return;
   }
 
-  // Only download on Linux (Railway)
+  // Only build on Linux (Railway)
   if (process.platform !== 'linux') {
-    console.log('Not on Linux, skipping Rhubarb download');
+    console.log('Not on Linux, skipping Rhubarb build');
     return;
   }
 
   try {
-    console.log('Downloading Rhubarb for Linux...');
+    console.log('Building Rhubarb for Linux from source...');
 
     // Create bin directory if it doesn't exist
     if (!fs.existsSync(binDir)) {
       fs.mkdirSync(binDir, { recursive: true });
     }
 
-    // Download using Node.js https module
-    const tarPath = path.join(binDir, 'rhubarb-1.14.0-linux.tar.gz');
-    await downloadFile('https://github.com/DanielSWolf/rhubarb-lip-sync/releases/download/v1.14.0/rhubarb-1.14.0-linux.tar.gz', tarPath);
+    // Download source code and build (using version 1.12.0 which is known to work)
+    const buildDir = path.join(binDir, 'rhubarb-build');
+    const sourceZip = path.join(binDir, 'v1.12.0.zip');
 
-    // Extract and setup using tar (should be available in most containers)
+    await downloadFile('https://github.com/DanielSWolf/rhubarb-lip-sync/archive/v1.12.0.zip', sourceZip);
+
+    // Build Rhubarb from source
     await new Promise((resolve, reject) => {
       exec(`
         cd ${binDir} && \
-        tar -xzf rhubarb-1.14.0-linux.tar.gz && \
-        mv rhubarb-1.14.0-linux/rhubarb . && \
-        chmod +x rhubarb && \
-        rm -rf rhubarb-1.14.0-linux rhubarb-1.14.0-linux.tar.gz
+        unzip v1.12.0.zip && \
+        mv rhubarb-lip-sync-1.12.0 rhubarb-build && \
+        cd rhubarb-build && \
+        cmake -DCMAKE_BUILD_TYPE=Release . && \
+        make && \
+        cp rhubarb/rhubarb ../rhubarb && \
+        chmod +x ../rhubarb && \
+        cd .. && \
+        rm -rf rhubarb-build v1.12.0.zip
       `, (error, stdout, stderr) => {
         if (error) {
+          console.error('Build stderr:', stderr);
           reject(error);
         } else {
           resolve(stdout);
@@ -79,9 +87,9 @@ const downloadRhubarb = async () => {
       });
     });
 
-    console.log('Rhubarb downloaded and installed successfully');
+    console.log('Rhubarb built and installed successfully');
   } catch (error) {
-    console.error('Failed to download Rhubarb:', error);
+    console.error('Failed to build Rhubarb:', error);
   }
 };
 
