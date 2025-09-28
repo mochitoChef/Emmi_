@@ -248,7 +248,10 @@ export const ChatProvider = ({ children }) => {
         setUserUsername,
 
         // User count
-        userCount
+        userCount,
+
+        // Socket instance
+        socket: socketRef.current
       }}
     >
       {children}

@@ -136,7 +136,8 @@ export const UI = ({ hidden, ...props }) => {
     setUserUsername,
     connectionStatus,
     reconnect,
-    userCount
+    userCount,
+    socket
   } = useChat();
 
   // Auto-scroll to bottom when new messages arrive
@@ -222,12 +223,12 @@ export const UI = ({ hidden, ...props }) => {
                     💎 Pump.Fun
                   </a>
                   <a
-                    href="https://twitter.com"
+                    href="https://x.com/Emmiversee"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="pointer-events-auto inline-block text-xs text-blue-300 bg-blue-900 bg-opacity-50 hover:bg-blue-800 hover:bg-opacity-70 px-2 py-1 rounded transition-all duration-200 hover:scale-105"
                   >
-                    🐦 Twitter
+                    🐦 @Emmiversee
                   </a>
                 </div>
               </div>
@@ -243,7 +244,7 @@ export const UI = ({ hidden, ...props }) => {
                   </div>
                 </a>
                 <a
-                  href="https://twitter.com"
+                  href="https://x.com/Emmiversee"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="pointer-events-auto block"

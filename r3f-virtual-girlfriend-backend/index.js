@@ -1,7 +1,7 @@
 import { exec } from "child_process";
 import cors from "cors";
 import dotenv from "dotenv";
-import voice from "elevenlabs-node";
+import * as voice from "elevenlabs-node";
 import express from "express";
 import { promises as fs } from "fs";
 import { createServer } from "http";
@@ -16,6 +16,8 @@ const openai = new OpenAI({
 
 const elevenLabsApiKey = process.env.ELEVEN_LABS_API_KEY;
 const voiceID = "eXpIbVcVbLo8ZJQDlDnl";
+
+
 
 const app = express();
 const server = createServer(app);
@@ -123,6 +125,7 @@ const messageBuffer = new MessageBuffer();
 const rateLimiter = new RateLimiter();
 const connectedUsers = new Map();
 
+
 // Socket.io connection handling
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
@@ -196,6 +199,7 @@ io.on('connection', (socket) => {
     // Emit updated user count
     io.emit('user_count', { count: connectedUsers.size });
 
+
     console.log(`User ${socket.id} set username: ${username}`);
   });
 
@@ -246,11 +250,13 @@ io.on('connection', (socket) => {
     if (mentionsEmmi) {
       try {
         await generateEmmiAudioOnly(userMessage);
+
       } catch (error) {
         console.error('Error generating Emmi audio response:', error);
       }
     }
   });
+
 
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);
@@ -427,6 +433,7 @@ app.get("/voices", async (req, res) => {
   res.send(await voice.getVoices(elevenLabsApiKey));
 });
 
+
 const execCommand = (command) => {
   return new Promise((resolve, reject) => {
     exec(command, (error, stdout, stderr) => {
@@ -548,6 +555,7 @@ const audioFileToBase64 = async (file) => {
   const data = await fs.readFile(file);
   return data.toString("base64");
 };
+
 
 server.listen(port, () => {
   console.log(`Virtual Girlfriend with real-time chat listening on port ${port}`);
