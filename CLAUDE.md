@@ -25,17 +25,22 @@ cd r3f-virtual-girlfriend-frontend && npm run dev
 ### Backend (Railway)
 - **URL**: https://emmi-production.up.railway.app
 - **Root Directory**: `r3f-virtual-girlfriend-backend`
+- **Container**: Alpine Linux with FFmpeg + build tools
 - **Environment Variables**:
   - `OPENAI_API_KEY` - GPT-4o-mini AI responses
   - `ELEVEN_LABS_API_KEY` - Voice synthesis
-- **Auto-installs**: Linux Rhubarb binary for lip-sync
+- **Audio System**: FFmpeg + Rhubarb (builds from source v1.12.0)
+- **Deployment**: Server waits for audio system setup before accepting connections
 
 ## Configuration
 **Local Environment**: `r3f-virtual-girlfriend-backend/.env`
 - `OPENAI_API_KEY` - Required for AI responses
 - `ELEVEN_LABS_API_KEY` - Required for voice synthesis
 
-**Rhubarb**: Auto-downloads Linux binary on Railway, Windows .exe in `/bin/` for local dev
+**Audio Setup**:
+- **Local**: Windows Rhubarb.exe in `/bin/` + system FFmpeg
+- **Railway**: Builds Rhubarb from source + FFmpeg via Alpine packages
+- **First Deploy**: Takes 5+ minutes for Rhubarb compilation, then normal startup
 
 ## Features ✅
 - Multi-user WebSocket chat with Socket.io
@@ -52,7 +57,9 @@ cd r3f-virtual-girlfriend-frontend && npm run dev
 - Backend: `r3f-virtual-girlfriend-backend/index.js`
 - Frontend: `r3f-virtual-girlfriend-frontend/src/components/UI.jsx`
 - Chat Hook: `r3f-virtual-girlfriend-frontend/src/hooks/useChat.jsx`
-- Rhubarb Installer: `r3f-virtual-girlfriend-backend/install-rhubarb.js`
+- Rhubarb Builder: `r3f-virtual-girlfriend-backend/install-rhubarb.js`
+- Docker Config: `r3f-virtual-girlfriend-backend/Dockerfile`
+- Railway Config: `r3f-virtual-girlfriend-backend/railway.json`
 
 ## Architecture
 - **Frontend**: Vercel (emmiverse.org) → **Backend**: Railway API
