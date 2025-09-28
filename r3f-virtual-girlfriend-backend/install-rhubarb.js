@@ -31,7 +31,7 @@ const downloadRhubarb = async () => {
     await new Promise((resolve, reject) => {
       exec(`
         cd ${binDir} && \
-        wget -q https://github.com/DanielSWolf/rhubarb-lip-sync/releases/download/v1.14.0/rhubarb-1.14.0-linux.tar.gz && \
+        curl -L -o rhubarb-1.14.0-linux.tar.gz https://github.com/DanielSWolf/rhubarb-lip-sync/releases/download/v1.14.0/rhubarb-1.14.0-linux.tar.gz && \
         tar -xzf rhubarb-1.14.0-linux.tar.gz && \
         mv rhubarb-1.14.0-linux/rhubarb . && \
         chmod +x rhubarb && \
