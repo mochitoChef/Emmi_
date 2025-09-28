@@ -574,6 +574,13 @@ const audioFileToBase64 = async (file) => {
 server.listen(port, async () => {
   console.log(`Virtual Girlfriend with real-time chat listening on port ${port}`);
 
+  // Create audios directory if it doesn't exist
+  const audiosDir = 'audios';
+  if (!await fs.access(audiosDir).then(() => true).catch(() => false)) {
+    await fs.mkdir(audiosDir, { recursive: true });
+    console.log('Created audios directory');
+  }
+
   // Download Rhubarb binary if on Linux (Railway)
   await downloadRhubarb();
 });

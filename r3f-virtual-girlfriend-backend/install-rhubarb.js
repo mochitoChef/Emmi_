@@ -22,6 +22,11 @@ const downloadRhubarb = async () => {
   try {
     console.log('Downloading Rhubarb for Linux...');
 
+    // Create bin directory if it doesn't exist
+    if (!fs.existsSync(binDir)) {
+      fs.mkdirSync(binDir, { recursive: true });
+    }
+
     // Download and extract
     await new Promise((resolve, reject) => {
       exec(`
