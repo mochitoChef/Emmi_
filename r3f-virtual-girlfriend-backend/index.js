@@ -8,6 +8,7 @@ import { createServer } from "http";
 import OpenAI from "openai";
 import { Server } from "socket.io";
 import { v4 as uuidv4 } from "uuid";
+import { downloadRhubarb } from "./install-rhubarb.js";
 dotenv.config();
 
 const openai = new OpenAI({
@@ -570,6 +571,9 @@ const audioFileToBase64 = async (file) => {
 };
 
 
-server.listen(port, () => {
+server.listen(port, async () => {
   console.log(`Virtual Girlfriend with real-time chat listening on port ${port}`);
+
+  // Download Rhubarb binary if on Linux (Railway)
+  await downloadRhubarb();
 });
