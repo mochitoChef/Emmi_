@@ -571,8 +571,9 @@ const audioFileToBase64 = async (file) => {
 };
 
 
-server.listen(port, async () => {
-  console.log(`Virtual Girlfriend with real-time chat listening on port ${port}`);
+// Setup function that runs before server starts
+async function setupServer() {
+  console.log('Setting up server...');
 
   // Create audios directory if it doesn't exist
   const audiosDir = 'audios';
@@ -581,6 +582,18 @@ server.listen(port, async () => {
     console.log('Created audios directory');
   }
 
-  // Download Rhubarb binary if on Linux (Railway)
+  // Build Rhubarb before starting server (critical for audio system)
   await downloadRhubarb();
+
+  console.log('Server setup complete - Rhubarb ready');
+}
+
+// Start server only after setup is complete
+setupServer().then(() => {
+  server.listen(port, () => {
+    console.log(`Virtual Girlfriend with real-time chat listening on port ${port}`);
+  });
+}).catch(error => {
+  console.error('Failed to setup server:', error);
+  process.exit(1);
 });
