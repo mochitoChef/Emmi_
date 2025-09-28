@@ -74,6 +74,7 @@ const downloadRhubarb = async () => {
         cmake -DCMAKE_BUILD_TYPE=Release . && \
         make rhubarb && \
         cp rhubarb/rhubarb ../rhubarb && \
+        cp -r rhubarb/res ../res && \
         chmod +x ../rhubarb && \
         cd .. && \
         rm -rf rhubarb-build v1.12.0.zip
